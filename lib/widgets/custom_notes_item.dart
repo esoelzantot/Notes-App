@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes_app/views/edit_notes_view.dart';
 
 class CustomNotesItem extends StatefulWidget {
   const CustomNotesItem({super.key});
@@ -68,7 +69,16 @@ class _CustomNotesItemState extends State<CustomNotesItem> {
                       iconSize: 20,
                       backgroundColor: Colors.white.withAlpha(200),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return EditNotesView();
+                          },
+                        ),
+                      );
+                    },
                     icon: Center(child: Icon(Icons.edit, color: Colors.black)),
                   ),
                 ],

@@ -11,6 +11,7 @@ class AddNoteBottomSheet extends StatefulWidget {
 }
 
 class _AddNoteBottomSheetState extends State<AddNoteBottomSheet> {
+  final _formKey = GlobalKey<FormState>();
   final Map<String, TextEditingController> controllers = {
     'title': TextEditingController(text: ''),
     'content': TextEditingController(text: ''),
@@ -22,6 +23,7 @@ class _AddNoteBottomSheetState extends State<AddNoteBottomSheet> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
       child: Form(
+        key: _formKey,
         child: SingleChildScrollView(
           child: Column(
             children: [
