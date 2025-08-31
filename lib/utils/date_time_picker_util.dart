@@ -172,6 +172,10 @@ class DateTimePickerUtil {
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide(color: Colors.grey),
       ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: Colors.redAccent.withAlpha(150)),
+      ),
     );
   }
 }

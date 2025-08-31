@@ -14,7 +14,7 @@ class _EditNotesViewBodyState extends State<EditNotesViewBody> {
   final Map<String, TextEditingController> controllers = {
     'title': TextEditingController(text: ''),
     'content': TextEditingController(text: ''),
-    'startDate': TextEditingController(text: ''),
+    'date': TextEditingController(text: ''),
   };
 
   @override
@@ -30,7 +30,7 @@ class _EditNotesViewBodyState extends State<EditNotesViewBody> {
             SizedBox(height: 20),
             DateTimePickerUtil.buildDateTimePickerField(
               context: context,
-              controller: controllers['startDate']!,
+              controller: controllers['date']!,
               labelText: 'Deadline',
               validator: (val) => val?.isEmpty ?? true ? 'Enter a date' : null,
             ),

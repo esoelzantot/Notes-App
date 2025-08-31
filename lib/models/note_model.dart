@@ -11,18 +11,23 @@ class NoteModel extends HiveObject {
   @HiveField(3)
   final String date;
   @HiveField(4)
-  final String color;
+  final bool isCompleted;
 
   NoteModel({
     required this.title,
     required this.content,
     required this.date,
-    required this.color,
+    required this.isCompleted,
   });
 
   // Convert NoteModel to Map for JSON serialization
   Map<String, dynamic> toMap() {
-    return {'title': title, 'content': content, 'date': date, 'color': color};
+    return {
+      'title': title,
+      'content': content,
+      'date': date,
+      'status': isCompleted,
+    };
   }
 
   // Create NoteModel from Map for JSON deserialization
@@ -31,7 +36,7 @@ class NoteModel extends HiveObject {
       title: map['title'] ?? '',
       content: map['content'] ?? '',
       date: map['date'] ?? '',
-      color: map['color'] ?? '',
+      isCompleted: map['isCompleted'] ?? '',
     );
   }
 
@@ -40,18 +45,18 @@ class NoteModel extends HiveObject {
     String? title,
     String? content,
     String? date,
-    String? color,
+    bool? isCompleted,
   }) {
     return NoteModel(
       title: title ?? this.title,
       content: content ?? this.content,
       date: date ?? this.date,
-      color: color ?? this.color,
+      isCompleted: isCompleted ?? this.isCompleted,
     );
   }
 
   @override
   String toString() {
-    return 'NoteModel(title: $title, content: $content, date: $date, color: $color)';
+    return 'NoteModel(title: $title, content: $content, date: $date, isCompleted: $isCompleted)';
   }
 }
