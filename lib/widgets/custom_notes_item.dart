@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:notes_app/models/note_model.dart';
 import 'package:notes_app/views/edit_notes_view.dart';
 
 class CustomNotesItem extends StatefulWidget {
-  const CustomNotesItem({super.key});
+  const CustomNotesItem({super.key, required this.note, required this.color});
+  final NoteModel note;
+  final Color? color;
 
   @override
   State<CustomNotesItem> createState() => _CustomNotesItemState();
@@ -14,26 +17,29 @@ class _CustomNotesItemState extends State<CustomNotesItem> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10.0),
       decoration: BoxDecoration(
-        color: Colors.greenAccent.withAlpha(200),
+        color: widget.note.isCompleted ? Color(0xFF81C784) : widget.color,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
         children: [
           ListTile(
             title: Text(
-              "Note Title",
+              widget.note.title,
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.white,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            subtitle: Text(
-              "Note Subtitle Note Subtitle Note Subtitle Note Subtitle Note Subtitle Note Subtitle Note Subtitle Note Subtitle",
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.black.withAlpha(250),
-                fontStyle: FontStyle.italic,
+            subtitle: Padding(
+              padding: const EdgeInsets.only(top: 5.0),
+              child: Text(
+                widget.note.content,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.black.withAlpha(250),
+                  fontStyle: FontStyle.italic,
+                ),
               ),
             ),
           ),
@@ -86,7 +92,7 @@ class _CustomNotesItemState extends State<CustomNotesItem> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: Text(
-                  "22 Mar 2022",
+                  widget.note.date,
                   style: TextStyle(fontSize: 14, color: Colors.black),
                 ),
               ),

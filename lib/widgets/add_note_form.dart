@@ -57,41 +57,49 @@ class _AddNoteFormState extends State<AddNoteForm> {
               labelText: 'Deadline',
               validator: (val) => val?.isEmpty ?? true ? 'Enter a date' : null,
             ),
-            SizedBox(height: 50),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.9,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 12),
-                  backgroundColor: Colors.deepPurpleAccent,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-                    NoteModel note = NoteModel(
-                      title: controllers['title']!.text,
-                      content: controllers['content']!.text,
-                      date: controllers['date']!.text,
-                      isCompleted: false,
-                    );
-                    BlocProvider.of<AddNoteCubit>(context).addNote(note);
-                    Logger().d("Note added successfully | $note");
-                  } else {
-                    autoValidateMode = AutovalidateMode.always;
-                  }
-                },
-                child: Text(
-                  'Add Note',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
+            SizedBox(height: 40),
+            BlocBuilder<AddNoteCubit, AddNoteState>(
+              builder: (context, state) {
+                return state is AddNoteLoading
+                    ? CircularProgressIndicator(color: Colors.deepPurpleAccent)
+                    : SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(vertical: 12),
+                            backgroundColor: Colors.deepPurpleAccent,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
+                              NoteModel note = NoteModel(
+                                title: controllers['title']!.text,
+                                content: controllers['content']!.text,
+                                date: controllers['date']!.text,
+                                isCompleted: false,
+                              );
+                              BlocProvider.of<AddNoteCubit>(
+                                context,
+                              ).addNote(note);
+                              Logger().d("Note added successfully | $note");
+                            } else {
+                              autoValidateMode = AutovalidateMode.always;
+                            }
+                          },
+                          child: Text(
+                            'Add Note',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      );
+              },
             ),
             SizedBox(height: 20),
           ],

@@ -15,7 +15,12 @@ class _AddNoteBottomSheetState extends State<AddNoteBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+      padding: EdgeInsets.only(
+        left: 20,
+        right: 20,
+        top: 20,
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
       child: BlocConsumer<AddNoteCubit, AddNoteState>(
         listener: (context, state) {
           // TODO: implement listener
@@ -29,9 +34,11 @@ class _AddNoteBottomSheetState extends State<AddNoteBottomSheet> {
           }
         },
         builder: (context, state) {
-          return ModalProgressHUD(
-            inAsyncCall: (state is AddNoteLoading) ? true : false,
-            child: SingleChildScrollView(child: AddNoteForm()),
+          return AbsorbPointer(
+            absorbing: state is AddNoteLoading,
+            child: SingleChildScrollView(
+              child: Column(children: [AddNoteForm(), SizedBox(height: 20)]),
+            ),
           );
         },
       ),

@@ -6,17 +6,19 @@ class SimpleBlocObserver implements BlocObserver {
   @override
   void onChange(BlocBase bloc, Change change) {
     // TODO: implement onChange
-    Logger().i("onChange: ${bloc.runtimeType}, $change");
+    debugPrint("onChange: ${bloc.runtimeType}, $change");
   }
 
   @override
   void onClose(BlocBase bloc) {
     // TODO: implement onClose
+    debugPrint("onClose: ${bloc.runtimeType}");
   }
 
   @override
   void onCreate(BlocBase bloc) {
     // TODO: implement onCreate
+    debugPrint("onCreate: ${bloc.runtimeType}");
   }
 
   @override
