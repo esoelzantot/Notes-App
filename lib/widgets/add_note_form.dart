@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:logger/logger.dart';
+import 'package:notes_app/constants.dart';
 import 'package:notes_app/cubits/add_notes_cubit/add_note_cubit.dart';
+import 'package:notes_app/cubits/get_notes_cubit/get_notes_cubit.dart';
 import 'package:notes_app/models/note_model.dart';
 import 'package:notes_app/utils/date_time_picker_util.dart';
 import 'package:notes_app/widgets/custom_text_field.dart';
@@ -75,16 +76,7 @@ class _AddNoteFormState extends State<AddNoteForm> {
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
-                              NoteModel note = NoteModel(
-                                title: controllers['title']!.text,
-                                content: controllers['content']!.text,
-                                date: controllers['date']!.text,
-                                isCompleted: false,
-                              );
-                              BlocProvider.of<AddNoteCubit>(
-                                context,
-                              ).addNote(note);
-                              Logger().d("Note added successfully | $note");
+                              postNote(context);
                             } else {
                               autoValidateMode = AutovalidateMode.always;
                             }
@@ -100,11 +92,25 @@ class _AddNoteFormState extends State<AddNoteForm> {
                         ),
                       );
               },
+              buildWhen: (previous, current) =>
+                  current is AddNoteLoading ||
+                  current is AddNoteSuccess ||
+                  current is AddNoteFailure,
             ),
             SizedBox(height: 20),
           ],
         ),
       ),
     );
+  }
+
+  void postNote(BuildContext context) {
+    NoteModel note = NoteModel(
+      title: controllers['title']!.text,
+      content: controllers['content']!.text,
+      date: controllers['date']!.text,
+      status: kPending,
+    );
+    BlocProvider.of<AddNoteCubit>(context).addNote(note);
   }
 }

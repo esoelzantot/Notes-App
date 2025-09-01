@@ -6,7 +6,7 @@ AppBar buildAppBar() {
     title: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5.0),
       child: const Text(
-        "Notes",
+        "Mhamy",
         style: TextStyle(fontSize: 30, fontWeight: FontWeight.w400),
       ),
     ),

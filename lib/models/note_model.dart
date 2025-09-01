@@ -5,29 +5,24 @@ part 'note_model.g.dart';
 @HiveType(typeId: 1)
 class NoteModel extends HiveObject {
   @HiveField(1)
-  final String title;
+  String title;
   @HiveField(2)
-  final String content;
+  String content;
   @HiveField(3)
-  final String date;
+  String date;
   @HiveField(4)
-  final bool isCompleted;
+  String status;
 
   NoteModel({
     required this.title,
     required this.content,
     required this.date,
-    required this.isCompleted,
+    required this.status,
   });
 
   // Convert NoteModel to Map for JSON serialization
   Map<String, dynamic> toMap() {
-    return {
-      'title': title,
-      'content': content,
-      'date': date,
-      'status': isCompleted,
-    };
+    return {'title': title, 'content': content, 'date': date, 'status': status};
   }
 
   // Create NoteModel from Map for JSON deserialization
@@ -36,7 +31,7 @@ class NoteModel extends HiveObject {
       title: map['title'] ?? '',
       content: map['content'] ?? '',
       date: map['date'] ?? '',
-      isCompleted: map['isCompleted'] ?? '',
+      status: map['status'] ?? '',
     );
   }
 
@@ -45,18 +40,18 @@ class NoteModel extends HiveObject {
     String? title,
     String? content,
     String? date,
-    bool? isCompleted,
+    String? status,
   }) {
     return NoteModel(
       title: title ?? this.title,
       content: content ?? this.content,
       date: date ?? this.date,
-      isCompleted: isCompleted ?? this.isCompleted,
+      status: status ?? this.status,
     );
   }
 
   @override
   String toString() {
-    return 'NoteModel(title: $title, content: $content, date: $date, isCompleted: $isCompleted)';
+    return 'NoteModel(title: $title, content: $content, date: $date, status: $status)';
   }
 }

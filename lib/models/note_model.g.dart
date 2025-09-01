@@ -20,7 +20,7 @@ class NoteModelAdapter extends TypeAdapter<NoteModel> {
       title: fields[1] as String,
       content: fields[2] as String,
       date: fields[3] as String,
-      isCompleted: fields[4] as bool,
+      status: fields[4] as String,
     );
   }
 
@@ -35,7 +35,7 @@ class NoteModelAdapter extends TypeAdapter<NoteModel> {
       ..writeByte(3)
       ..write(obj.date)
       ..writeByte(4)
-      ..write(obj.isCompleted);
+      ..write(obj.status);
   }
 
   @override

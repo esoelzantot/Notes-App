@@ -1,31 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:notes_app/constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes_app/cubits/get_notes_cubit/get_notes_cubit.dart';
 import 'package:notes_app/models/note_model.dart';
 import 'package:notes_app/widgets/custom_notes_item.dart';
+import 'package:notes_app/widgets/not_notes_found.dart';
 
-class NotesListView extends StatelessWidget {
+class NotesListView extends StatefulWidget {
   const NotesListView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    List<Color> colors = kColors;
+  State<NotesListView> createState() => _NotesListViewState();
+}
 
-    return ListView.builder(
-      itemCount: 10,
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: CustomNotesItem(
-            note: NoteModel(
-              title: "Note Title",
-              content: "Note Content",
-              date: "22 Mar 2022",
-              isCompleted: true,
-            ),
-            color: colors[index % colors.length],
-          ),
-        );
+class _NotesListViewState extends State<NotesListView> {
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<GetNotesCubit>(context).getNotes();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<GetNotesCubit, GetNotesState>(
+      listener: (context, state) {
+        // TODO: implement listener
       },
+      builder: (context, state) {
+        List<NoteModel> notes = BlocProvider.of<GetNotesCubit>(context).notes;
+        return (state is GetNotesSuccess && notes.isNotEmpty)
+            ? ListView.builder(
+                itemCount: notes.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: CustomNotesItem(note: notes[index]),
+                  );
+                },
+              )
+            : NotNotesFound();
+      },
+      buildWhen: (previous, current) =>
+          current is GetNotesSuccess ||
+          current is GetNotesFailure ||
+          current is GetNotesLoading,
     );
   }
 }
